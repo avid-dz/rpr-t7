@@ -3,6 +3,7 @@ package ba.unsa.rpr.tutorijal7;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Tutorijal {
@@ -22,6 +23,7 @@ public class Tutorijal {
         try {
             ulazniTok = new Scanner(new FileReader("mjerenja.txt"));
             ulazniTok.useDelimiter(",");
+            ulazniTok.useLocale(Locale.US);
         } catch (FileNotFoundException e) {
             System.out.println("Datoteka mjerenja.txt ne postoji ili se ne moze otvoriti");
             return new ArrayList<>();
