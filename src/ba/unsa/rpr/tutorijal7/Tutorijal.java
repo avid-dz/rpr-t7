@@ -53,4 +53,8 @@ public class Tutorijal {
         }
         return listaGradova;
     }
+
+    public static void zapisiXML(UN un) {
+
+    }
 }
