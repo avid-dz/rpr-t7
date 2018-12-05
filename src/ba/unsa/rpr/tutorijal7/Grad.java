@@ -5,6 +5,7 @@ public class Grad {
     private String naziv = "";
     private int brojStanovnika = 0;
     private double[] temperature = new double[1000];
+    private int brojMjerenja = 0;
 
     public Grad() {
     }
@@ -27,4 +28,6 @@ public class Grad {
     public void setBrojStanovnika(int brojStanovnika) {
         this.brojStanovnika = brojStanovnika;
     }
+    public int getBrojMjerenja() { return brojMjerenja; }
+    public void setBrojMjerenja(int brojMjerenja) { this.brojMjerenja = brojMjerenja; }
 }
