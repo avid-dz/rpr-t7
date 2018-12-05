@@ -15,6 +15,7 @@ public class Tutorijal {
             for (int i = 0; i < grad.getBrojMjerenja(); i++) {
                 System.out.print((grad.getTemperature())[i] + " ");
             }
+            System.out.println();
         }
     }
 
