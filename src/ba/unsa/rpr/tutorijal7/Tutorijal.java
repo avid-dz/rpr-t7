@@ -28,17 +28,26 @@ public class Tutorijal {
             System.out.println();
         }
         UN un = ucitajXml(lista);
-        zapisiXml(un);
+        System.out.println();
+        System.out.println();
         for (Drzava drzava : un.getListaDrzava()) {
             System.out.println("Drzava " + drzava.getNaziv());
             System.out.println("Povrsina " + drzava.getPovrsina() + " " + drzava.getJedinicaZaPovrsinu());
             System.out.println("Glavni grad: " + drzava.getGlavniGrad().getNaziv());
             System.out.println("Broj stanovnika glavnog grada: " + drzava.getGlavniGrad().getBrojStanovnika());
             System.out.println("Temperature glavnog grada: ");
-            for (double temp : drzava.getGlavniGrad().getTemperature()) {
-                System.out.print(temp + " ");
+            if (drzava.getGlavniGrad().getBrojMjerenja() == 0) {
+                System.out.println("Nema mjerenja temperatura za njen glavni grad.");
             }
+            else {
+                for (int brojac = 0; brojac < drzava.getGlavniGrad().getBrojMjerenja(); brojac++) {
+                    System.out.print((drzava.getGlavniGrad().getTemperature())[brojac] + " ");
+                }
+            }
+            System.out.println();
+            System.out.println();
         }
+        zapisiXml(un);
     }
 
     public static ArrayList<Grad> ucitajGradove() {
