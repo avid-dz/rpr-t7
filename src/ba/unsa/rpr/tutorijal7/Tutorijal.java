@@ -27,22 +27,11 @@ public class Tutorijal {
             }
             System.out.println();
         }
-        ArrayList<Drzava> listaDrzava = new ArrayList<>();
-        Drzava d = new Drzava();
-        Drzava c = new Drzava();
-        Drzava e = new Drzava();
-        d.setNaziv("Bosna");
-        c.setNaziv("Hercegovina");
-        e.setNaziv("Njemacka");
-        e.setBrojStanovnika(10000);
-        c.setBrojStanovnika(20000);
-        d.setBrojStanovnika(50000);
-        listaDrzava.add(d);
-        listaDrzava.add(c);
-        listaDrzava.add(e);
-        UN un = new UN();
-        un.setListaDrzava(listaDrzava);
+        UN un = ucitajXml(lista);
         zapisiXml(un);
+        for (Drzava drzava : un.getListaDrzava()) {
+            System.out.println(drzava.getNaziv() + " ");
+        }
     }
 
     public static ArrayList<Grad> ucitajGradove() {
@@ -123,6 +112,12 @@ public class Tutorijal {
                                     if (dijeteOdGradaElement.getTagName().equals("naziv")) {
                                         glavniGradDrzave.setNaziv(dijeteOdGradaElement.getTextContent());
                                     }
+                                }
+                            }
+                            for (Grad iter : listaGradova) {
+                                if (iter.getNaziv().equals(glavniGradDrzave.getNaziv())) {
+                                    glavniGradDrzave.setBrojMjerenja(iter.getBrojMjerenja());
+                                    glavniGradDrzave.setTemperature(iter.getTemperature());
                                 }
                             }
                             drzava.setGlavniGrad(glavniGradDrzave);
