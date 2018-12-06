@@ -1,6 +1,8 @@
 package ba.unsa.rpr.tutorijal7;
 
+import java.beans.XMLEncoder;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,6 +19,22 @@ public class Tutorijal {
             }
             System.out.println();
         }
+        ArrayList<Drzava> listaDrzava = new ArrayList<>();
+        Drzava d = new Drzava();
+        Drzava c = new Drzava();
+        Drzava e = new Drzava();
+        d.setNaziv("Bosna");
+        c.setNaziv("Hercegovina");
+        e.setNaziv("Njemacka");
+        e.setBrojStanovnika(10000);
+        c.setBrojStanovnika(20000);
+        d.setBrojStanovnika(50000);
+        listaDrzava.add(d);
+        listaDrzava.add(c);
+        listaDrzava.add(e);
+        UN un = new UN();
+        un.setListaDrzava(listaDrzava);
+        zapisiXML(un);
     }
 
     public static ArrayList<Grad> ucitajGradove() {
@@ -54,7 +72,24 @@ public class Tutorijal {
         return listaGradova;
     }
 
-    public static void zapisiXML(UN un) {
+    public static UN ucitajXML(ArrayList<Grad> listaGradova) {
+        return new UN();
+    }
 
+    public static void zapisiXML(UN un) {
+        XMLEncoder izlazXML = null;
+        try {
+            izlazXML = new XMLEncoder(new FileOutputStream("un.xml"));
+        } catch (Exception e) {
+            System.out.println("Greska pri otvaranju ili kreiranju XML datoteke.");
+            return;
+        }
+        try {
+            izlazXML.writeObject(un);
+        } catch (Exception e) {
+            System.out.println("Greska pri upisu u XML datoteku.");
+        } finally {
+            izlazXML.close();
+        }
     }
 }
