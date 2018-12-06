@@ -1,6 +1,14 @@
 package ba.unsa.rpr.tutorijal7;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.beans.XMLEncoder;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -73,7 +81,25 @@ public class Tutorijal {
     }
 
     public static UN ucitajXML(ArrayList<Grad> listaGradova) {
-        return new UN();
+        Document xmldoc = null;
+        try {
+            DocumentBuilder docReader = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            xmldoc = docReader.parse(new File("drzave.xml"));
+        } catch (Exception e) {
+            System.out.println("drzave.xml nije validan XML dokument!");
+            return new UN();
+        }
+        UN un = new UN();
+        Element korijenskiElementDrzave = xmldoc.getDocumentElement();
+        NodeList listaDrzava = korijenskiElementDrzave.getChildNodes();
+        int brojDrzava = listaDrzava.getLength();
+        for (int i = 0; i < brojDrzava; i++) {
+            Node dijete = listaDrzava.item(i);
+            if (dijete instanceof Element) {
+
+            }
+        }
+        return un;
     }
 
     public static void zapisiXML(UN un) {
