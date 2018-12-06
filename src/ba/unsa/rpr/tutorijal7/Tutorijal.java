@@ -30,7 +30,14 @@ public class Tutorijal {
         UN un = ucitajXml(lista);
         zapisiXml(un);
         for (Drzava drzava : un.getListaDrzava()) {
-            System.out.println(drzava.getNaziv() + " ");
+            System.out.println("Drzava " + drzava.getNaziv());
+            System.out.println("Povrsina " + drzava.getPovrsina() + " " + drzava.getJedinicaZaPovrsinu());
+            System.out.println("Glavni grad: " + drzava.getGlavniGrad().getNaziv());
+            System.out.println("Broj stanovnika glavnog grada: " + drzava.getGlavniGrad().getBrojStanovnika());
+            System.out.println("Temperature glavnog grada: ");
+            for (double temp : drzava.getGlavniGrad().getTemperature()) {
+                System.out.print(temp + " ");
+            }
         }
     }
 
