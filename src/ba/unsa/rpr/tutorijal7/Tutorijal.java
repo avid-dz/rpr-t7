@@ -42,7 +42,7 @@ public class Tutorijal {
         listaDrzava.add(e);
         UN un = new UN();
         un.setListaDrzava(listaDrzava);
-        zapisiXML(un);
+        zapisiXml(un);
     }
 
     public static ArrayList<Grad> ucitajGradove() {
@@ -80,7 +80,7 @@ public class Tutorijal {
         return listaGradova;
     }
 
-    public static UN ucitajXML(ArrayList<Grad> listaGradova) {
+    public static UN ucitajXml(ArrayList<Grad> listaGradova) {
         Document xmldoc = null;
         try {
             DocumentBuilder docReader = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -90,19 +90,58 @@ public class Tutorijal {
             return new UN();
         }
         UN un = new UN();
+        ArrayList<Drzava> unLista = new ArrayList<>();
         Element korijenskiElementDrzave = xmldoc.getDocumentElement();
         NodeList listaDrzava = korijenskiElementDrzave.getChildNodes();
         int brojDrzava = listaDrzava.getLength();
         for (int i = 0; i < brojDrzava; i++) {
-            Node dijete = listaDrzava.item(i);
-            if (dijete instanceof Element) {
-
+            Node dijeteDrzava = listaDrzava.item(i);
+            if (dijeteDrzava instanceof Element) {
+                Drzava drzava = new Drzava();
+                Element drzavaElement = (Element) dijeteDrzava;
+                String brojStanovnikaDrzave = drzavaElement.getAttribute("stanovnika");
+                drzava.setBrojStanovnika(Integer.parseInt(brojStanovnikaDrzave));
+                NodeList listaDjeceOdDrzave = drzavaElement.getChildNodes();
+                int brojDjeceOdDrzave = listaDjeceOdDrzave.getLength();
+                for (int j = 0; j < brojDjeceOdDrzave; j++) {
+                    Node dijeteOdDrzave = listaDjeceOdDrzave.item(j);
+                    if (dijeteOdDrzave instanceof Element) {
+                        Element dijeteOdDrzaveElement = (Element) dijeteOdDrzave;
+                        if (dijeteOdDrzaveElement.getTagName().equals("naziv")) {
+                            drzava.setNaziv(dijeteOdDrzaveElement.getTextContent());
+                        }
+                        else if (dijeteOdDrzaveElement.getTagName().equals("glavnigrad")) {
+                            Grad glavniGradDrzave = new Grad();
+                            NodeList listaDjeceOdGrada = dijeteOdDrzaveElement.getChildNodes();
+                            String brojStanovnikaGrada = dijeteOdDrzaveElement.getAttribute("stanovnika");
+                            glavniGradDrzave.setBrojStanovnika(Integer.parseInt(brojStanovnikaGrada));
+                            int brojDjeceOdGrada = listaDjeceOdGrada.getLength();
+                            for (int k = 0; k < brojDjeceOdGrada; k++) {
+                                Node dijeteOdGrada = listaDjeceOdGrada.item(k);
+                                if (dijeteOdGrada instanceof Element) {
+                                    Element dijeteOdGradaElement = (Element) dijeteOdGrada;
+                                    if (dijeteOdGradaElement.getTagName().equals("naziv")) {
+                                        glavniGradDrzave.setNaziv(dijeteOdGradaElement.getTextContent());
+                                    }
+                                }
+                            }
+                            drzava.setGlavniGrad(glavniGradDrzave);
+                        }
+                        else if (dijeteOdDrzaveElement.getTagName().equals("povrsina")) {
+                            drzava.setPovrsina(Double.parseDouble(dijeteOdDrzaveElement.getTextContent()));
+                            String jedinicaZaPovrsinuDrzave = dijeteOdDrzaveElement.getAttribute("jedinica");
+                            drzava.setJedinicaZaPovrsinu(jedinicaZaPovrsinuDrzave);
+                        }
+                    }
+                }
+                unLista.add(drzava);
             }
         }
+        un.setListaDrzava(unLista);
         return un;
     }
 
-    public static void zapisiXML(UN un) {
+    public static void zapisiXml(UN un) {
         XMLEncoder izlazXML = null;
         try {
             izlazXML = new XMLEncoder(new FileOutputStream("un.xml"));
